@@ -4,13 +4,11 @@ namespace Envoice.CronBuilder.CronTabs
 {
     internal class YearTab : CronTab
     {
-        protected override string Value { get; set; }
-
         public YearTab(CronBuilder builder) : base(builder)
         {
         }
 
-        public override void SetInterval(int interval)
+        protected override void SetIntervalInternal(int interval)
         {
             if (interval < 1979)
                 throw new CronException("Years cannot be less than 1979");
@@ -21,7 +19,7 @@ namespace Envoice.CronBuilder.CronTabs
             Value = $"0/{interval}";
         }
 
-        public override void SetValues(int[] values)
+        protected override void SetValuesInternal(int[] values)
         {
             if (values == null || values.Length == 0) return;
 

@@ -6,16 +6,28 @@ namespace Envoice.CronBuilder.CronTabs
     {
         protected CronBuilder Builder;
 
-        protected abstract string Value { get; set; }
+        protected string Value { get; set; }
 
         protected CronTab(CronBuilder builder, CronTabMode mode = CronTabMode.All)
         {
             Builder = builder ?? throw new ArgumentNullException(nameof(builder));
+            Mode = mode;
         }
 
-        public abstract void SetInterval(int interval);
+        protected abstract void SetIntervalInternal(int interval);
+        protected abstract void SetValuesInternal(int[] values);
 
-        public abstract void SetValues(int[] values);
+        public virtual void SetInterval(int interval)
+        {
+            Mode = CronTabMode.Value;
+            SetIntervalInternal(interval);
+        }
+
+        public virtual void SetValues(int[] values)
+        {
+            Mode = CronTabMode.Value;
+            SetValuesInternal(values);
+        }
 
         public CronTabMode Mode { get; set; }
 

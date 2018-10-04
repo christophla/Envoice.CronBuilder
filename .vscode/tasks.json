@@ -22,7 +22,7 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "clean",
+            "label": "unit-tests",
             "command": "dotnet",
             "group": "test",
             "type": "process",

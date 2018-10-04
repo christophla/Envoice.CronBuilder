@@ -4,13 +4,11 @@ namespace Envoice.CronBuilder.CronTabs
 {
     internal class MinutesTab : CronTab
     {
-        protected override string Value { get; set; }
-
         public MinutesTab(CronBuilder builder) : base(builder)
         {
         }
 
-        public override void SetInterval(int interval)
+        protected override void SetIntervalInternal(int interval)
         {
             if (interval < 1)
                 throw new CronException("Minutes cannot be less than 1");
@@ -21,7 +19,7 @@ namespace Envoice.CronBuilder.CronTabs
             Value = $"0/{interval}";
         }
 
-        public override void SetValues(int[] values)
+        protected override void SetValuesInternal(int[] values)
         {
             if (values == null || values.Length == 0) return;
 

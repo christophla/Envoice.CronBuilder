@@ -4,13 +4,11 @@ namespace Envoice.CronBuilder.CronTabs
 {
     internal class DayOfWeekTab : CronTab
     {
-        protected override string Value { get; set; }
-
         public DayOfWeekTab(CronBuilder builder) : base(builder)
         {
         }
 
-        public override void SetInterval(int interval)
+        protected override void SetIntervalInternal(int interval)
         {
             if (interval < 1)
                 throw new CronException("Days cannot be less than 1");
@@ -20,10 +18,9 @@ namespace Envoice.CronBuilder.CronTabs
 
             Value = $"1/{interval}";
             Builder.DayOfMonth.Mode = CronTabMode.Startup;
-
         }
 
-        public override void SetValues(int[] values)
+        protected override void SetValuesInternal(int[] values)
         {
             if (values == null || values.Length == 0) return;
 

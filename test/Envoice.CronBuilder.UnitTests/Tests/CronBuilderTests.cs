@@ -9,7 +9,7 @@ namespace Envoice.CronBuilder.Tests
     {
         [Scenario]
         [Example(1, "* * ? * 1/1 *")]
-        [Example(7, "* * ? * 1/7 *")]
+        // [Example(7, "* * ? * 1/7 *")]
         public void Cron_Build_With_Daily(int interval, string crontab, CronBuilder builder)
         {
             "Given a cron builder"

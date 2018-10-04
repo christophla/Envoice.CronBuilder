@@ -16,7 +16,7 @@ namespace Envoice.CronBuilder.CronTabs
             if (interval > 12)
                 throw new CronException("Months cannot be greater than 12");
 
-            Value = $"0/{interval}";
+            Value = $"1/{interval}";
         }
 
         protected override void SetValuesInternal(int[] values)

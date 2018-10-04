@@ -27,7 +27,7 @@ namespace Envoice.CronBuilder.CronTabs
             if (values.Any(o => o <= 0))
                 throw new CronException("Days of month can not be zero or negative");
 
-            if (values.Any(o => o > 31))
+            if (values.Any(o => o > 7))
                 throw new CronException("Days of month can not be greater than 31");
 
             Value = string.Join(",", values.OrderBy(o => o).Distinct());

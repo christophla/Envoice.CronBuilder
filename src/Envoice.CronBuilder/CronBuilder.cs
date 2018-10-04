@@ -41,12 +41,43 @@ namespace Envoice.CronBuilder
         }
 
         /// <summary>
-        /// Returns the cron expression
+        ///     Returns the cron expression
         /// </summary>
         public override string ToString()
         {
             //minutes, hours, days, months, and days of week
-            return $"{Minutes} {Hours} {DayOfMonth} {Month} {DayOfWeek} {Year}";
+            return $"{Seconds} {Minutes} {Hours} {DayOfMonth} {Month} {DayOfWeek} {Year}";
+        }
+
+        /// <summary>
+        ///     Returns the cron expression with formatting.
+        /// </summary>
+        /// <param name="format"></param>
+        /// <returns></returns>
+        public string ToString(string format)
+        {
+            if (format == null || format.Length == 0)
+                format = "D";
+
+            if (format.Length != 1)
+            {
+                // all acceptable format strings are of length 1
+                throw new FormatException($"The format {format} can only be one character");
+            }
+
+            char formatCh = format[0];
+            if (formatCh == 'D' || formatCh == 'd')
+            {
+                return $"{Seconds} {Minutes} {Hours} {DayOfMonth} {Month} {DayOfWeek} {Year}";
+            }
+            if (formatCh == 'S' || formatCh == 's')
+            {
+                return $"{Minutes} {Hours} {DayOfMonth} {Month} {DayOfWeek} {Year}";
+            }
+            else
+            {
+                throw new FormatException($"The format {format} is not a valid format");
+            }
         }
     }
 }

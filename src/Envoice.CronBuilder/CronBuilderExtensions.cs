@@ -56,13 +56,13 @@ namespace Envoice.CronBuilder
 
         public static CronBuilder WithMinutely(this CronBuilder builder, int interval)
         {
-            builder.Hours.SetInterval(interval);
+            builder.Minutes.SetInterval(interval);
             return builder;
         }
 
         public static CronBuilder WithMonthly(this CronBuilder builder, int interval)
         {
-            builder.Hours.SetInterval(interval);
+            builder.Month.SetInterval(interval);
             return builder;
         }
 

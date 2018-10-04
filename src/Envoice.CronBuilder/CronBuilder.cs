@@ -76,7 +76,7 @@ namespace Envoice.CronBuilder
             }
             else
             {
-                throw new FormatException($"The format {format} is not a valid format");
+                throw new FormatException($"The format {format} is not valid");
             }
         }
     }

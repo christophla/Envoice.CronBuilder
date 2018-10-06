@@ -1,0 +1,7 @@
+language: csharp
+mono: none
+dotnet: 2.1.403
+script:
+  - chmod +x ./scripts/project-tasks.sh
+  - ./scripts/project-tasks.sh build-ci
+sudo: required

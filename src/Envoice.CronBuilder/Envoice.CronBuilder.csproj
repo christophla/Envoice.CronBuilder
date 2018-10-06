@@ -1,7 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
+    <PropertyGroup>
+        <VersionPrefix>1.0.2</VersionPrefix>
+        <TargetFrameworks>netstandard2.0</TargetFrameworks>
+        <Authors>christophla</Authors>
+        <Company>Envoice</Company>
+        <Copyright>MIT</Copyright>
+        <Description>CronBuilder is a class library that helps developers programatically create CronTab expressions.</Description>
+        <IncludeSource>true</IncludeSource>
+        <IncludeSymbols>true</IncludeSymbols>
+        <Owners>christophla</Owners>
+        <PackageId>Envoice.Conditions</PackageId>
+        <PackageTags>dotnetcore,crontab,cron</PackageTags>
+        <ProjectUrl>https://github.com/christophla/Envoice.CronBuilder</ProjectUrl>
+        <RepositoryUrl>https://github.com/christophla/Envoice.CronBuilder</RepositoryUrl>
+        <VersionSuffix>$(VersionSuffix)</VersionSuffix>
+    </PropertyGroup>
 
 </Project>

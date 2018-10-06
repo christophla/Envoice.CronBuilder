@@ -10,7 +10,7 @@
         <IncludeSource>true</IncludeSource>
         <IncludeSymbols>true</IncludeSymbols>
         <Owners>christophla</Owners>
-        <PackageId>Envoice.Conditions</PackageId>
+        <PackageId>Envoice.CronBuilder</PackageId>
         <PackageTags>dotnetcore,crontab,cron</PackageTags>
         <ProjectUrl>https://github.com/christophla/Envoice.CronBuilder</ProjectUrl>
         <RepositoryUrl>https://github.com/christophla/Envoice.CronBuilder</RepositoryUrl>

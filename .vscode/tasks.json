@@ -1,0 +1,36 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/Envoice.CronBuilder/Envoice.CronBuilder.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "clean",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "clean",
+                "${workspaceFolder}/src/Envoice.CronBuilder/Envoice.CronBuilder.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "unit-tests",
+            "command": "dotnet",
+            "group": "test",
+            "type": "process",
+            "args": [
+                "test",
+                "${workspaceFolder}/test/Envoice.CronBuilder.UnitTests/Envoice.CronBuilder.UnitTests.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+    ]
+}

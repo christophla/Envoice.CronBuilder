@@ -10,10 +10,29 @@ namespace Envoice.CronBuilder.Tests
         [Scenario]
         [Example(1, "* * * ? * 1/1 *")]
         [Example(7, "* * * ? * 1/7 *")]
-        public void Cron_Build_With_Daily(int interval, string crontab, CronBuilder builder)
+        public void Cron_Build_With_Daily_Week(int interval, string crontab, CronBuilder builder)
         {
             "Given a cron builder"
                 .x(() => builder = new CronBuilder());
+
+            "When a daily recurrence is set"
+                .x(() => builder.WithDaily(interval));
+
+            "The cron statement should be"
+                .x(() => builder.ToString().ShouldBe(crontab));
+        }
+
+        [Scenario]
+        [Example(1, "* * * ? * 6/1 *")]
+        [Example(7, "* * * ? * 6/7 *")]
+        public void Cron_Build_With_Daily_StartDate(int interval, string crontab, DateTime startDate, CronBuilder builder)
+        {
+            "Given a cron builder and a start date"
+                .x(() =>
+                {
+                    startDate = new DateTime(2000, 1, 15);
+                    builder = new CronBuilder(startDate);
+                });
 
             "When a daily recurrence is set"
                 .x(() => builder.WithDaily(interval));
@@ -123,6 +142,26 @@ namespace Envoice.CronBuilder.Tests
         }
 
         [Scenario]
+        [Example(1, "* * 5/1 ? * * *")]
+        [Example(2, "* * 5/2 ? * * *")]
+        [Example(24, "* * 5/24 ? * * *")]
+        public void Cron_Build_With_Hourly_StartDate(int interval, string crontab, DateTime startDate, CronBuilder builder)
+        {
+            "Given a cron builder and a start date"
+                .x(() =>
+                {
+                    startDate = new DateTime(2000, 1, 1, 5, 1, 1);
+                    builder = new CronBuilder(startDate);
+                });
+
+            "When an hourly recurrence is set"
+                .x(() => builder.WithHourly(interval));
+
+            "The cron statement should be"
+                .x(() => builder.ToString().ShouldBe(crontab));
+        }
+
+        [Scenario]
         [Example(0)]
         [Example(-1)]
         [Example(25)]
@@ -190,6 +229,26 @@ namespace Envoice.CronBuilder.Tests
         }
 
         [Scenario]
+        [Example(1, "* 5/1 * ? * * *")]
+        [Example(2, "* 5/2 * ? * * *")]
+        [Example(60, "* 5/60 * ? * * *")]
+        public void Cron_Build_With_Minutely_StartDate(int interval, string crontab, DateTime startDate, CronBuilder builder)
+        {
+            "Given a cron builder and a start date"
+                .x(() =>
+                {
+                    startDate = new DateTime(2000, 1, 1, 1, 5, 1);
+                    builder = new CronBuilder(startDate);
+                });
+
+            "When a minutely recurrence is set"
+                .x(() => builder.WithMinutely(interval));
+
+            "The cron statement should be"
+                .x(() => builder.ToString().ShouldBe(crontab));
+        }
+
+        [Scenario]
         [Example(0)]
         [Example(-1)]
         [Example(61)]
@@ -248,6 +307,26 @@ namespace Envoice.CronBuilder.Tests
         {
             "Given a cron builder"
                 .x(() => builder = new CronBuilder());
+
+            "When a minutely recurrence is set"
+                .x(() => builder.WithMonthly(interval));
+
+            "The cron statement should be"
+                .x(() => builder.ToString().ShouldBe(crontab));
+        }
+
+        [Scenario]
+        [Example(1, "* * * ? 5/1 * *")]
+        [Example(2, "* * * ? 5/2 * *")]
+        [Example(12, "* * * ? 5/12 * *")]
+        public void Cron_Build_With_Monthly_StartDate(int interval, string crontab, DateTime startDate, CronBuilder builder)
+        {
+            "Given a cron builder and a start date"
+                .x(() =>
+                {
+                    startDate = new DateTime(2000, 5, 1);
+                    builder = new CronBuilder(startDate);
+                });
 
             "When a minutely recurrence is set"
                 .x(() => builder.WithMonthly(interval));

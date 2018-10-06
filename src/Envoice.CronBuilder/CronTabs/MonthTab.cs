@@ -16,7 +16,9 @@ namespace Envoice.CronBuilder.CronTabs
             if (interval > 12)
                 throw new CronException("Months cannot be greater than 12");
 
-            Value = $"1/{interval}";
+            var offset = (Builder.StartTime.HasValue) ? (int)Builder.StartTime.Value.Month : 1;
+
+            Value = $"{offset}/{interval}";
         }
 
         protected override void SetValuesInternal(int[] values)

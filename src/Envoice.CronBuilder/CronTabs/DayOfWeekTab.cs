@@ -16,7 +16,9 @@ namespace Envoice.CronBuilder.CronTabs
             if (interval > 7)
                 throw new CronException("Days can not be greater than 7");
 
-            Value = $"1/{interval}";
+            var offset = (Builder.StartTime.HasValue) ? (int)Builder.StartTime.Value.DayOfWeek : 1;
+
+            Value = $"{offset}/{interval}";
             Builder.DayOfMonth.Mode = CronTabMode.Startup;
         }
 

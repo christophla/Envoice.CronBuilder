@@ -16,7 +16,9 @@ namespace Envoice.CronBuilder.CronTabs
             if (interval > 2099)
                 throw new CronException("Seconds can not be greater than 2099");
 
-            Value = $"0/{interval}";
+            var offset = (Builder.StartTime.HasValue) ? (int)Builder.StartTime.Value.Year : 0;
+
+            Value = $"{offset}/{interval}";
         }
 
         protected override void SetValuesInternal(int[] values)

@@ -8,15 +8,6 @@ namespace Envoice.CronBuilder.CronTabs
         {
         }
 
-        protected int Offset
-        {
-            get
-            {
-                if (!Builder.StartTime.HasValue) return 1;
-                return (int)Builder.StartTime.Value.DayOfWeek;
-            }
-        }
-
         protected override void SetIntervalInternal(int interval)
         {
             if (interval < 1)
@@ -25,7 +16,9 @@ namespace Envoice.CronBuilder.CronTabs
             if (interval > 7)
                 throw new CronException("Days can not be greater than 7");
 
-            Value = $"{Offset}/{interval}";
+            var offset = (Builder.StartTime.HasValue) ? (int)Builder.StartTime.Value.Day : 1;
+
+            Value = $"{offset}/{interval}";
             Builder.DayOfWeek.Mode = CronTabMode.Startup;
         }
 

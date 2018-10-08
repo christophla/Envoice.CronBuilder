@@ -61,15 +61,6 @@ namespace Envoice.CronBuilder
                    this.Year.CompareTo(other.Year);
         }
 
-        public bool Equals(CronBuilder other)
-        {
-            if (other is CronBuilder)
-            {
-                return (bool)CompareTo(other)
-            }
-            return false;
-            throw new NotImplementedException();
-        }
 
         /// <summary>
         ///     Returns the cron expression

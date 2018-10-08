@@ -38,7 +38,7 @@ namespace Envoice.CronBuilder.CronTabs
                 case (CronTabMode.All):
                     return "*";
                 case (CronTabMode.Startup):
-                    return "?";
+                    return Builder.Options.DisableQuestionMark ? "*" : "?";
                 case (CronTabMode.Value):
                     return Value;
                 default:

@@ -16,12 +16,16 @@ namespace Envoice.CronBuilder
         internal CronTab Seconds;
         internal DateTime? StartTime;
         internal CronTab Year;
+        internal CronBuilderOptions Options;
 
         /// <summary>
-        ///     Creates a new cron builder instance.
+        ///     Creates a new cron builder instance with options.
         /// </summary>
-        public CronBuilder()
+        /// <param name="options">The builder options</param>
+        public CronBuilder(CronBuilderOptions options)
         {
+            Options = options ?? throw new ArgumentNullException(nameof(options));
+
             DayOfMonth = new DayOfMonthTab(this);
             DayOfWeek = new DayOfWeekTab(this);
             Hours = new HoursTab(this);
@@ -29,6 +33,13 @@ namespace Envoice.CronBuilder
             Month = new MonthTab(this);
             Seconds = new SecondsTab(this);
             Year = new YearTab(this);
+        }
+
+        /// <summary>
+        ///     Creates a new cron builder instance.
+        /// </summary>
+        public CronBuilder() : this(new CronBuilderOptions())
+        {
         }
 
         /// <summary>

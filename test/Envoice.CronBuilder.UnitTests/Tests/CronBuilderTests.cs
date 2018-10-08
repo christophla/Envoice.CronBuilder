@@ -1,4 +1,5 @@
 using System;
+using NCrontab;
 using Shouldly;
 using Xbehave;
 using Xunit;
@@ -419,6 +420,37 @@ namespace Envoice.CronBuilder.Tests
 
             "The cron statement should be equal"
                 .x(() => builder.Equals(builder).ShouldBeTrue());
+        }
+
+        [Scenario]
+        [Example(1, "* * * * * 1/1 *")]
+        public void Cron_Build_Option_QuestionMark(int interval, string crontab, CronBuilder builder)
+        {
+            "Given a cron builder"
+                .x(() => builder = new CronBuilder(new CronBuilderOptions { DisableQuestionMark = true }));
+
+            "When a daily recurrence is set"
+                .x(() => builder.WithDaily(interval));
+
+            "The cron statement should be"
+                .x(() => builder.ToString().ShouldBe(crontab));
+        }
+
+        [Scenario]
+        [Example(1, "* * * * 1/1")]
+        public void Cron_NCronTab_Parse_Test(int interval, string cron, CronBuilder builder)
+        {
+            "Given a cron builder"
+                .x(() => builder = new CronBuilder(new CronBuilderOptions { DisableQuestionMark = true }));
+
+            "When a daily recurrence is set"
+                .x(() => builder.WithDaily(interval));
+
+            "The cron statement should be"
+                .x(() => builder.ToString("Y").ShouldBe(cron));
+
+            "And it should parse without errors"
+                .x(() => CrontabSchedule.Parse(builder.ToString("Y")));
         }
     }
 }

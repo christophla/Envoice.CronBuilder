@@ -353,8 +353,9 @@ namespace Envoice.CronBuilder.Tests
 
         [Scenario]
         [Example(1, "* * * ? * 1/1 *", null)]
-        [Example(1, "* * * ? * 1/1 *", "D")]
+        [Example(1, "* * * ? * 1/1 *", "A")]
         [Example(1, "* * ? * 1/1 *", "S")]
+        [Example(1, "* * ? * 1/1", "Y")]
         public void Cron_Build_With_Output_Formats(int interval, string crontab, string format, CronBuilder builder)
         {
             "Given a cron builder"
@@ -378,6 +379,46 @@ namespace Envoice.CronBuilder.Tests
 
             "Then a format exception is thrown"
                 .x(() => Assert.IsType<FormatException>(ex));
+        }
+
+        [Scenario]
+        [Example(1)]
+        public void Cron_Build_With_Equals(int interval, CronBuilder builder)
+        {
+            "Given a cron builder"
+                .x(() => builder = new CronBuilder());
+
+            "When a recurrence is set"
+                .x(() =>
+                {
+                    builder.WithDaily(interval);
+                    builder.WithHourly(interval);
+                    builder.WithMinutely(interval);
+                    builder.WithMonthly(interval);
+                });
+
+            "The cron statement should be equal"
+                .x(() => builder.Equals(builder).ShouldBeTrue());
+        }
+
+        [Scenario]
+        [Example(new[] { 1 })]
+        public void Cron_Build_With_Equals_Interval(int[] interval, CronBuilder builder)
+        {
+            "Given a cron builder"
+                .x(() => builder = new CronBuilder());
+
+            "When a recurrence is set"
+                .x(() =>
+                {
+                    builder.WithDaysOfMonth(interval);
+                    builder.WithDaysOfWeek(interval);
+                    builder.WithHours(interval);
+                    builder.WithMinutes(interval);
+                });
+
+            "The cron statement should be equal"
+                .x(() => builder.Equals(builder).ShouldBeTrue());
         }
     }
 }

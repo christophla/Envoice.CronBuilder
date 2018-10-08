@@ -6,7 +6,7 @@ namespace Envoice.CronBuilder
     /// <summary>
     /// Utility for building cron expressions.
     /// </summary>
-    public class CronBuilder : IComparable, IComparable<CronBuilder>, IFormattable, IEquatable<CronBuilder>
+    public class CronBuilder : IFormattable, IEquatable<CronBuilder>
     {
         internal CronTab DayOfMonth;
         internal CronTab DayOfWeek;
@@ -40,27 +40,45 @@ namespace Envoice.CronBuilder
             StartTime = startTime;
         }
 
-        public int CompareTo(object value)
+        public override bool Equals(object other)
         {
-            if (value == null) return 1;
-            if (!(value is CronBuilder))
+            if (other is CronBuilder)
             {
-                throw new ArgumentException("Value must be type of CronBuilder.");
+                return this.Equals((CronBuilder)other);
             }
-            return CompareTo((CronBuilder)value);
+            return false;
         }
 
-        public int CompareTo(CronBuilder other)
+        public bool Equals(CronBuilder other)
         {
-            return this.DayOfMonth.CompareTo(other.DayOfMonth) &
-                   this.DayOfWeek.CompareTo(other.DayOfWeek) &
-                   this.Hours.CompareTo(other.Hours) &
-                   this.Minutes.CompareTo(other.Minutes) &
-                   this.Month.CompareTo(other.Month) &
-                   this.Seconds.CompareTo(other.Seconds) &
-                   this.Year.CompareTo(other.Year);
+            if (other == null || GetType() != other.GetType())
+                return false;
+
+            return
+                this.DayOfMonth.Equals(other.DayOfMonth) &
+                this.DayOfWeek.Equals(other.DayOfWeek) &
+                this.Hours.Equals(other.Hours) &
+                this.Minutes.Equals(other.Minutes) &
+                this.Month.Equals(other.Month) &
+                this.Seconds.Equals(other.Seconds) &
+                this.Year.Equals(other.Year);
         }
 
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 13;
+                hash = (hash * 7) ^ this.DayOfMonth.GetHashCode();
+                hash = (hash * 7) ^ this.DayOfWeek.GetHashCode();
+                hash = (hash * 7) ^ this.Hours.GetHashCode();
+                hash = (hash * 7) ^ this.Minutes.GetHashCode();
+                hash = (hash * 7) ^ this.Month.GetHashCode();
+                hash = (hash * 7) ^ this.Seconds.GetHashCode();
+                hash = (hash * 7) ^ this.Year.GetHashCode();
+                return hash;
+            }
+        }
 
         /// <summary>
         ///     Returns the cron expression
@@ -79,7 +97,7 @@ namespace Envoice.CronBuilder
         public string ToString(string format)
         {
             if (format == null || format.Length == 0)
-                format = "D";
+                format = "A";
 
             if (format.Length != 1)
             {
@@ -88,13 +106,17 @@ namespace Envoice.CronBuilder
             }
 
             char formatCh = format[0];
-            if (formatCh == 'D' || formatCh == 'd')
+            if (formatCh == 'A' || formatCh == 'a')
             {
                 return $"{Seconds} {Minutes} {Hours} {DayOfMonth} {Month} {DayOfWeek} {Year}";
             }
             if (formatCh == 'S' || formatCh == 's')
             {
                 return $"{Minutes} {Hours} {DayOfMonth} {Month} {DayOfWeek} {Year}";
+            }
+            if (formatCh == 'Y' || formatCh == 's')
+            {
+                return $"{Minutes} {Hours} {DayOfMonth} {Month} {DayOfWeek}";
             }
             else
             {
@@ -106,5 +128,6 @@ namespace Envoice.CronBuilder
         {
             throw new NotImplementedException();
         }
+
     }
 }

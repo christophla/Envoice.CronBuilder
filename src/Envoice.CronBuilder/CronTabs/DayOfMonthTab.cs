@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Envoice.CronBuilder.CronTabs
 {
-    internal class DayOfMonthTab : CronTab, IEquatable<DayOfMonthTab>
+    internal class DayOfMonthTab : CronTab
     {
         public DayOfMonthTab(CronBuilder builder) : base(builder, CronTabMode.Startup)
         {

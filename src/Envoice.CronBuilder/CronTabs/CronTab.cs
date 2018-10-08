@@ -46,9 +46,23 @@ namespace Envoice.CronBuilder.CronTabs
             }
         }
 
+        public override bool Equals(object other)
+        {
+            if (other is CronTab)
+            {
+                return ((CronTab)other).Value == Value;
+            }
+            return false;
+        }
+
         public bool Equals(CronTab other)
         {
             return other.Value == Value;
+        }
+
+        public override int GetHashCode()
+        {
+            return (13 * 7) + Value.GetHashCode();
         }
     }
 }

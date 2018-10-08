@@ -1,12 +1,14 @@
+using System;
 using System.Linq;
 
 namespace Envoice.CronBuilder.CronTabs
 {
-    internal class DayOfMonthTab : CronTab
+    internal class DayOfMonthTab : CronTab, IEquatable<DayOfMonthTab>
     {
         public DayOfMonthTab(CronBuilder builder) : base(builder, CronTabMode.Startup)
         {
         }
+
 
         protected override void SetIntervalInternal(int interval)
         {

@@ -6,7 +6,7 @@ namespace Envoice.CronBuilder
     /// <summary>
     /// Utility for building cron expressions.
     /// </summary>
-    public class CronBuilder
+    public class CronBuilder : IComparable, IComparable<CronBuilder>, IFormattable, IEquatable<CronBuilder>
     {
         internal CronTab DayOfMonth;
         internal CronTab DayOfWeek;
@@ -38,6 +38,37 @@ namespace Envoice.CronBuilder
         public CronBuilder(DateTime startTime) : this()
         {
             StartTime = startTime;
+        }
+
+        public int CompareTo(object value)
+        {
+            if (value == null) return 1;
+            if (!(value is CronBuilder))
+            {
+                throw new ArgumentException("Value must be type of CronBuilder.");
+            }
+            return CompareTo((CronBuilder)value);
+        }
+
+        public int CompareTo(CronBuilder other)
+        {
+            return this.DayOfMonth.CompareTo(other.DayOfMonth) &
+                   this.DayOfWeek.CompareTo(other.DayOfWeek) &
+                   this.Hours.CompareTo(other.Hours) &
+                   this.Minutes.CompareTo(other.Minutes) &
+                   this.Month.CompareTo(other.Month) &
+                   this.Seconds.CompareTo(other.Seconds) &
+                   this.Year.CompareTo(other.Year);
+        }
+
+        public bool Equals(CronBuilder other)
+        {
+            if (other is CronBuilder)
+            {
+                return (bool)CompareTo(other)
+            }
+            return false;
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -78,6 +109,11 @@ namespace Envoice.CronBuilder
             {
                 throw new FormatException($"The format {format} is not valid");
             }
+        }
+
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            throw new NotImplementedException();
         }
     }
 }

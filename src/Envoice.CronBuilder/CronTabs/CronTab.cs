@@ -2,7 +2,7 @@ using System;
 
 namespace Envoice.CronBuilder.CronTabs
 {
-    internal abstract class CronTab
+    internal abstract class CronTab : IEquatable<CronTab>
     {
         protected CronBuilder Builder;
 
@@ -44,6 +44,11 @@ namespace Envoice.CronBuilder.CronTabs
                 default:
                     return "*";
             }
+        }
+
+        public bool Equals(CronTab other)
+        {
+            return other.Value == Value;
         }
     }
 }

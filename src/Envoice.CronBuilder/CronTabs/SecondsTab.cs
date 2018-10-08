@@ -1,11 +1,28 @@
+using System;
 using System.Linq;
 
 namespace Envoice.CronBuilder.CronTabs
 {
-    internal class SecondsTab : CronTab
+    internal class SecondsTab : CronTab, IComparable, IComparable<SecondsTab>
     {
         public SecondsTab(CronBuilder builder) : base(builder)
         {
+        }
+
+        public int CompareTo(object value)
+        {
+            if (value == null) return 1;
+            if (!(value is SecondsTab))
+            {
+                throw new ArgumentException("Argument value must be type of SecondsTab.");
+            }
+
+            return ((SecondsTab)value).Value == Value ? 1 : 0;
+        }
+
+        public int CompareTo(SecondsTab value)
+        {
+            return ((SecondsTab)value).Value == Value ? 1 : 0;
         }
 
         protected override void SetIntervalInternal(int interval)

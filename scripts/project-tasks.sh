@@ -103,6 +103,7 @@ nugetPublish () {
                     --include-source \
                     --include-symbols
             else
+                echo -e "${YELLOW}Using suffix ${suffix}${RESTORE}"
                 dotnet pack \
                     -c $ENVIRONMENT \
                     -o ../../.artifacts/nuget \
@@ -116,6 +117,11 @@ nugetPublish () {
         cd ..
 
     done
+
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}An error occurred${RESTORE}"
+        exit 1
+    fi
 
     echo -e "${GREEN}"
     echo -e "++++++++++++++++++++++++++++++++++++++++++++++++"

@@ -2,7 +2,7 @@ using System;
 
 namespace Envoice.CronBuilder.CronTabs
 {
-    internal abstract class CronTab
+    internal abstract class CronTab : IEquatable<CronTab>
     {
         protected CronBuilder Builder;
 
@@ -38,12 +38,31 @@ namespace Envoice.CronBuilder.CronTabs
                 case (CronTabMode.All):
                     return "*";
                 case (CronTabMode.Startup):
-                    return "?";
+                    return Builder.Options.DisableQuestionMark ? "*" : "?";
                 case (CronTabMode.Value):
                     return Value;
                 default:
                     return "*";
             }
+        }
+
+        public override bool Equals(object other)
+        {
+            if (other is CronTab)
+            {
+                return ((CronTab)other).Value == Value;
+            }
+            return false;
+        }
+
+        public bool Equals(CronTab other)
+        {
+            return other.Value == Value;
+        }
+
+        public override int GetHashCode()
+        {
+            return (13 * 7) + Value.GetHashCode();
         }
     }
 }

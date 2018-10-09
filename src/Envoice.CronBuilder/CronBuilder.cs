@@ -6,7 +6,7 @@ namespace Envoice.CronBuilder
     /// <summary>
     /// Utility for building cron expressions.
     /// </summary>
-    public class CronBuilder
+    public class CronBuilder : IFormattable, IEquatable<CronBuilder>
     {
         internal CronTab DayOfMonth;
         internal CronTab DayOfWeek;
@@ -16,12 +16,16 @@ namespace Envoice.CronBuilder
         internal CronTab Seconds;
         internal DateTime? StartTime;
         internal CronTab Year;
+        internal CronBuilderOptions Options;
 
         /// <summary>
-        ///     Creates a new cron builder instance.
+        ///     Creates a new cron builder instance with options.
         /// </summary>
-        public CronBuilder()
+        /// <param name="options">The builder options</param>
+        public CronBuilder(CronBuilderOptions options)
         {
+            Options = options ?? throw new ArgumentNullException(nameof(options));
+
             DayOfMonth = new DayOfMonthTab(this);
             DayOfWeek = new DayOfWeekTab(this);
             Hours = new HoursTab(this);
@@ -32,12 +36,59 @@ namespace Envoice.CronBuilder
         }
 
         /// <summary>
+        ///     Creates a new cron builder instance.
+        /// </summary>
+        public CronBuilder() : this(new CronBuilderOptions())
+        {
+        }
+
+        /// <summary>
         ///     Creates a new cron builder with given start time offset.
         /// </summary>
         /// <param name="startTime">The start time offset</param>
         public CronBuilder(DateTime startTime) : this()
         {
             StartTime = startTime;
+        }
+
+        public override bool Equals(object other)
+        {
+            if (other is CronBuilder)
+            {
+                return this.Equals((CronBuilder)other);
+            }
+            return false;
+        }
+
+        public bool Equals(CronBuilder other)
+        {
+            if (other == null || GetType() != other.GetType())
+                return false;
+
+            return
+                this.DayOfMonth.Equals(other.DayOfMonth) &
+                this.DayOfWeek.Equals(other.DayOfWeek) &
+                this.Hours.Equals(other.Hours) &
+                this.Minutes.Equals(other.Minutes) &
+                this.Month.Equals(other.Month) &
+                this.Seconds.Equals(other.Seconds) &
+                this.Year.Equals(other.Year);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 13;
+                hash = (hash * 7) ^ this.DayOfMonth.GetHashCode();
+                hash = (hash * 7) ^ this.DayOfWeek.GetHashCode();
+                hash = (hash * 7) ^ this.Hours.GetHashCode();
+                hash = (hash * 7) ^ this.Minutes.GetHashCode();
+                hash = (hash * 7) ^ this.Month.GetHashCode();
+                hash = (hash * 7) ^ this.Seconds.GetHashCode();
+                hash = (hash * 7) ^ this.Year.GetHashCode();
+                return hash;
+            }
         }
 
         /// <summary>
@@ -57,7 +108,7 @@ namespace Envoice.CronBuilder
         public string ToString(string format)
         {
             if (format == null || format.Length == 0)
-                format = "D";
+                format = "A";
 
             if (format.Length != 1)
             {
@@ -66,7 +117,7 @@ namespace Envoice.CronBuilder
             }
 
             char formatCh = format[0];
-            if (formatCh == 'D' || formatCh == 'd')
+            if (formatCh == 'A' || formatCh == 'a')
             {
                 return $"{Seconds} {Minutes} {Hours} {DayOfMonth} {Month} {DayOfWeek} {Year}";
             }
@@ -74,10 +125,20 @@ namespace Envoice.CronBuilder
             {
                 return $"{Minutes} {Hours} {DayOfMonth} {Month} {DayOfWeek} {Year}";
             }
+            if (formatCh == 'Y' || formatCh == 's')
+            {
+                return $"{Minutes} {Hours} {DayOfMonth} {Month} {DayOfWeek}";
+            }
             else
             {
                 throw new FormatException($"The format {format} is not valid");
             }
         }
+
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

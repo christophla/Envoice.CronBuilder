@@ -1,11 +1,28 @@
+using System;
 using System.Linq;
 
 namespace Envoice.CronBuilder.CronTabs
 {
-    internal class YearTab : CronTab
+    internal class YearTab : CronTab, IComparable, IComparable<YearTab>
     {
         public YearTab(CronBuilder builder) : base(builder)
         {
+        }
+
+        public int CompareTo(object value)
+        {
+            if (value == null) return 1;
+            if (!(value is YearTab))
+            {
+                throw new ArgumentException("Argument value must be type of YearTab.");
+            }
+
+            return ((YearTab)value).Value == Value ? 1 : 0;
+        }
+
+        public int CompareTo(YearTab value)
+        {
+            return ((YearTab)value).Value == Value ? 1 : 0;
         }
 
         protected override void SetIntervalInternal(int interval)

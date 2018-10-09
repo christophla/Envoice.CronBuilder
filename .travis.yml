@@ -5,3 +5,6 @@ script:
   - chmod +x ./scripts/project-tasks.sh
   - ./scripts/project-tasks.sh build-ci
 sudo: required
+branches:
+  only:
+    - master
